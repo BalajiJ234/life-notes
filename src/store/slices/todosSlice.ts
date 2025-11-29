@@ -1,15 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+export type TodoType = 'project' | 'work' | 'personal' | 'learning' | 'essential'
+
+export const TODO_TYPE_CONFIG: Record<TodoType, { label: string; color: string; icon: string }> = {
+  project: { label: 'Project', color: '#8B5CF6', icon: '🚀' },
+  work: { label: 'Work', color: '#3B82F6', icon: '💼' },
+  personal: { label: 'Personal', color: '#10B981', icon: '🏠' },
+  learning: { label: 'Learning', color: '#F59E0B', icon: '📚' },
+  essential: { label: 'Essential', color: '#EF4444', icon: '⚡' },
+}
+
 export interface Todo {
   id: string
   text: string
   completed: boolean
   priority: 'low' | 'medium' | 'high'
+  type: TodoType
   dueDate?: string
   category: string
   createdAt: string
   tags?: string[]
   notes?: string
+  dayNumber?: number // Day 1, Day 2, etc.
 }
 
 interface TodosState {
@@ -122,6 +134,21 @@ export const selectTodosStats = (state: { todos: TodosState }) => {
       new Date(t.dueDate).toDateString() === new Date().toDateString()
     ).length,
   }
+}
+
+export const selectTodosByType = (state: { todos: TodosState }, type: TodoType) => {
+  return state.todos.todos.filter(todo => todo.type === type)
+}
+
+export const selectTodosByDay = (state: { todos: TodosState }, dayNumber: number) => {
+  return state.todos.todos.filter(todo => todo.dayNumber === dayNumber)
+}
+
+export const selectTodaysTodos = (state: { todos: TodosState }) => {
+  const today = new Date().toDateString()
+  return state.todos.todos.filter(todo => 
+    todo.dueDate && new Date(todo.dueDate).toDateString() === today
+  )
 }
 
 export default todosSlice.reducer

@@ -14,7 +14,8 @@ import {
   List,
   ChevronLeft,
   ChevronRight,
-  Upload
+  Upload,
+  Sparkles
 } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
@@ -23,7 +24,9 @@ import {
   deleteTodo,
   toggleTodo,
   bulkImportTodos,
-  type Todo
+  type Todo,
+  type TodoType,
+  TODO_TYPE_CONFIG
 } from '@/store/slices/todosSlice'
 import type { RootState } from '@/store/index'
 import BulkImport from '@/components/BulkImport'
@@ -43,26 +46,55 @@ const categories = [
   'Other'
 ]
 
+// Day 1 Tasks - 29th Nov 2025
+const DAY_1_TASKS: Omit<Todo, 'id' | 'createdAt'>[] = [
+  { text: '📚 Created Life-Sync 2.0 master documentation (README.md)', completed: true, priority: 'high', type: 'project', category: 'Work', dayNumber: 1, dueDate: '2025-11-29' },
+  { text: '🏗️ Created ARCHITECTURE.md with system design', completed: true, priority: 'high', type: 'project', category: 'Work', dayNumber: 1, dueDate: '2025-11-29' },
+  { text: '📝 Created LEARNING_ROADMAP.md for 4-month journey', completed: true, priority: 'high', type: 'learning', category: 'Personal', dayNumber: 1, dueDate: '2025-11-29' },
+  { text: '✅ Built Life Notes app with Notes & Todos features', completed: true, priority: 'high', type: 'project', category: 'Work', dayNumber: 1, dueDate: '2025-11-29' },
+  { text: '🚀 Pushed life-notes to GitHub repository', completed: true, priority: 'high', type: 'project', category: 'Work', dayNumber: 1, dueDate: '2025-11-29' },
+  { text: '📁 Set up multi-repo architecture (docs + apps)', completed: true, priority: 'high', type: 'project', category: 'Work', dayNumber: 1, dueDate: '2025-11-29' },
+  { text: '📄 Created FOLDER-STRUCTURE.md documentation', completed: true, priority: 'medium', type: 'project', category: 'Work', dayNumber: 1, dueDate: '2025-11-29' },
+  { text: '🔧 Configured .gitignore for multi-repo setup', completed: true, priority: 'medium', type: 'project', category: 'Work', dayNumber: 1, dueDate: '2025-11-29' },
+  { text: '⬆️ Pushed life-sync-2.0 docs to GitHub', completed: true, priority: 'high', type: 'project', category: 'Work', dayNumber: 1, dueDate: '2025-11-29' },
+  { text: '🌐 Deploy life-notes to Vercel', completed: false, priority: 'high', type: 'project', category: 'Work', dayNumber: 1, dueDate: '2025-11-29' },
+]
+
 export default function TodosPage() {
   const dispatch = useAppDispatch()
   const todos = useAppSelector((state: RootState) => state.todos?.todos || [])
   const [newTodo, setNewTodo] = useState('')
   const [newPriority, setNewPriority] = useState<'low' | 'medium' | 'high'>('medium')
+  const [newType, setNewType] = useState<TodoType>('project')
   const [newCategory, setNewCategory] = useState('Personal')
   const [newDueDate, setNewDueDate] = useState('')
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editText, setEditText] = useState('')
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all')
+  const [typeFilter, setTypeFilter] = useState<TodoType | 'all'>('all')
   const [searchTerm, setSearchTerm] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
   const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list')
   const [currentDate, setCurrentDate] = useState(new Date())
   const [showBulkImport, setShowBulkImport] = useState(false)
+  const [day1Loaded, setDay1Loaded] = useState(false)
 
   // Set page title
   useEffect(() => {
     document.title = 'Todos - Life Notes'
   }, [])
+
+  // Load Day 1 tasks on first load
+  const loadDay1Tasks = () => {
+    if (day1Loaded) return
+    const tasksToAdd = DAY_1_TASKS.map(task => ({
+      ...task,
+      id: `day1-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      createdAt: new Date('2025-11-29').toISOString(),
+    }))
+    dispatch(bulkImportTodos(tasksToAdd as Todo[]))
+    setDay1Loaded(true)
+  }
 
   const handleAddTodo = () => {
     if (newTodo.trim()) {
@@ -71,6 +103,7 @@ export default function TodosPage() {
         text: newTodo.trim(),
         completed: false,
         priority: newPriority,
+        type: newType,
         dueDate: newDueDate || undefined,
         category: newCategory,
         createdAt: new Date().toISOString()
@@ -128,6 +161,7 @@ export default function TodosPage() {
     if (filter === 'completed' && !todo.completed) return false
     if (searchTerm && !todo.text.toLowerCase().includes(searchTerm.toLowerCase())) return false
     if (categoryFilter !== 'all' && todo.category !== categoryFilter) return false
+    if (typeFilter !== 'all' && todo.type !== typeFilter) return false
     return true
   })
 
@@ -223,6 +257,27 @@ export default function TodosPage() {
         </div>
       </div>
 
+      {/* Day 1 Quick Load */}
+      {todos.length === 0 && (
+        <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-6 rounded-lg shadow-sm text-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-bold flex items-center gap-2">
+                <Sparkles size={24} />
+                Welcome to Day 1! (Nov 29, 2025)
+              </h3>
+              <p className="text-purple-100 mt-1">Load your first 10 tasks to track what you&apos;ve accomplished today!</p>
+            </div>
+            <button
+              onClick={loadDay1Tasks}
+              className="px-6 py-3 bg-white text-purple-600 font-bold rounded-lg hover:bg-purple-50 transition-colors"
+            >
+              Load Day 1 Tasks
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Add Todo */}
       <div className="bg-white p-6 rounded-lg shadow-sm border">
         <div className="space-y-4">
@@ -237,7 +292,17 @@ export default function TodosPage() {
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
+              <select
+                value={newType}
+                onChange={(e) => setNewType(e.target.value as TodoType)}
+                className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                style={{ borderLeftWidth: '4px', borderLeftColor: TODO_TYPE_CONFIG[newType].color }}
+              >
+                {Object.entries(TODO_TYPE_CONFIG).map(([key, config]) => (
+                  <option key={key} value={key}>{config.icon} {config.label}</option>
+                ))}
+              </select>
               <select
                 value={newPriority}
                 onChange={(e) => setNewPriority(e.target.value as 'low' | 'medium' | 'high')}
@@ -293,18 +358,44 @@ export default function TodosPage() {
 
       {/* Filters & View Toggle */}
       <div className="bg-white p-4 rounded-lg shadow-sm border">
-        <div className="flex flex-col md:flex-row gap-4">
-          {/* Search */}
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search tasks..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            />
+        <div className="flex flex-col gap-4">
+          {/* Type Filter Pills */}
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setTypeFilter('all')}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                typeFilter === 'all' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              All Types
+            </button>
+            {Object.entries(TODO_TYPE_CONFIG).map(([key, config]) => (
+              <button
+                key={key}
+                onClick={() => setTypeFilter(key as TodoType)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center gap-1 ${
+                  typeFilter === key ? 'text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+                style={typeFilter === key ? { backgroundColor: config.color } : {}}
+              >
+                <span>{config.icon}</span>
+                <span>{config.label}</span>
+              </button>
+            ))}
           </div>
+
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Search */}
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search tasks..."
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
 
           {/* View Toggle */}
           <div className="flex bg-gray-100 rounded-lg p-1">
@@ -422,11 +513,24 @@ export default function TodosPage() {
                           {todo.text}
                         </div>
                         <div className="flex items-center gap-4 mt-2 text-sm text-gray-500 flex-wrap">
+                          {todo.type && TODO_TYPE_CONFIG[todo.type] && (
+                            <span 
+                              className="px-2 py-1 rounded-full text-xs font-medium text-white"
+                              style={{ backgroundColor: TODO_TYPE_CONFIG[todo.type].color }}
+                            >
+                              {TODO_TYPE_CONFIG[todo.type].icon} {TODO_TYPE_CONFIG[todo.type].label}
+                            </span>
+                          )}
                           <span className={`px-2 py-1 rounded-full text-xs font-medium ${priorityColors[todo.priority]}`}>
                             <Flag size={12} className="inline mr-1" />
                             {todo.priority.toUpperCase()}
                           </span>
                           <span className="px-2 py-1 bg-gray-100 rounded-full text-xs">{todo.category}</span>
+                          {todo.dayNumber && (
+                            <span className="px-2 py-1 bg-purple-100 text-purple-600 rounded-full text-xs font-medium">
+                              Day {todo.dayNumber}
+                            </span>
+                          )}
                           {todo.dueDate && (
                             <span className={`px-2 py-1 rounded-full text-xs flex items-center gap-1 ${
                               isOverdue(todo.dueDate) && !todo.completed
