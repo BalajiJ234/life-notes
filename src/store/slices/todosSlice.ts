@@ -1,13 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-export type TodoType = 'project' | 'work' | 'personal' | 'learning' | 'essential'
+export type TodoType = 'project' | 'work' | 'personal' | 'learning' | 'essential' | 'finance-expense' | 'finance-saving'
 
-export const TODO_TYPE_CONFIG: Record<TodoType, { label: string; color: string; icon: string }> = {
+export const TODO_TYPE_CONFIG: Record<TodoType, { label: string; color: string; icon: string; app?: string }> = {
   project: { label: 'Project', color: '#8B5CF6', icon: '🚀' },
   work: { label: 'Work', color: '#3B82F6', icon: '💼' },
   personal: { label: 'Personal', color: '#10B981', icon: '🏠' },
   learning: { label: 'Learning', color: '#F59E0B', icon: '📚' },
   essential: { label: 'Essential', color: '#EF4444', icon: '⚡' },
+  'finance-expense': { label: 'Expense', color: '#EC4899', icon: '💸', app: 'wealth-pulse' },
+  'finance-saving': { label: 'Saving', color: '#14B8A6', icon: '🏦', app: 'wealth-pulse' },
 }
 
 export interface Todo {
@@ -22,6 +24,17 @@ export interface Todo {
   tags?: string[]
   notes?: string
   dayNumber?: number // Day 1, Day 2, etc.
+  
+  // Finance Integration (Wealth Pulse) - Future Microservice
+  financeData?: {
+    amount?: number
+    currency?: string
+    expenseCategory?: string  // Food, Transport, etc.
+    savingGoal?: string       // Emergency Fund, Vacation, etc.
+    recurring?: boolean
+    syncedWithWealthPulse?: boolean
+    wealthPulseId?: string    // ID from Wealth Pulse app
+  }
 }
 
 interface TodosState {
