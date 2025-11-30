@@ -1,6 +1,13 @@
 # Life Notes 📝
 
-> Notes & Todos app - Part of the Life-Sync ecosystem
+> Notes & Todos app - Part of the Life-Sync 2.0 ecosystem
+
+## 🌐 Live URLs
+
+| Environment | URL |
+|-------------|-----|
+| **Production** | https://balaji-dev.in/life-sync/notes |
+| **Direct Vercel** | https://lyf-notes-todo.vercel.app/life-sync/notes |
 
 ## Features
 
@@ -11,21 +18,36 @@
 - Search functionality
 - Bulk import/export
 
-### ✅ Todos
+### ✅ Todos (7 Types)
+
+| Type | Purpose | Color |
+|------|---------|-------|
+| `project` | Project tasks | Blue |
+| `work` | Work-related | Purple |
+| `personal` | Personal tasks | Green |
+| `learning` | Study/courses | Yellow |
+| `essential` | Critical tasks | Red |
+| `finance-expense` | Track expenses → Wealth Pulse | Orange |
+| `finance-saving` | Savings goals → Wealth Pulse | Emerald |
+
+### Additional Features
 - Task management with priorities (Low/Medium/High)
 - Due dates with overdue tracking
-- Categories (Personal, Work, Shopping, Health, Finance, Other)
 - Calendar view
 - Status filters (All/Active/Completed)
 - Bulk import/export
 
 ## Tech Stack
 
-- **Framework**: Next.js 15 (App Router)
-- **UI**: React 19 + Tailwind CSS 4
-- **State**: Redux Toolkit + Redux Persist
-- **Icons**: Lucide React
-- **Language**: TypeScript
+| Category | Technology |
+|----------|------------|
+| **Framework** | Next.js 15 (App Router) |
+| **UI** | React 19 + Tailwind CSS 4 |
+| **State** | Redux Toolkit + Redux Persist |
+| **Icons** | Lucide React |
+| **Language** | TypeScript |
+| **Hosting** | Vercel |
+| **Routing** | Cloudflare Workers (path-based) |
 
 ## Getting Started
 
@@ -36,8 +58,9 @@
 ### Installation
 
 ```bash
-# Navigate to the app directory
-cd apps/life-notes
+# Clone the repository
+git clone https://github.com/BalajiJ234/life-notes.git
+cd life-notes
 
 # Install dependencies
 npm install
@@ -81,21 +104,39 @@ life-notes/
 │   │       └── todosSlice.ts
 │   └── hooks/
 ├── public/
+├── next.config.ts          # basePath: /life-sync/notes
 ├── package.json
 └── tsconfig.json
+```
+
+## Path-Based Routing Configuration
+
+This app uses `basePath` for path-based routing under the main domain:
+
+```typescript
+// next.config.ts
+const nextConfig: NextConfig = {
+  basePath: "/life-sync/notes",
+  assetPrefix: "/life-sync/notes",
+};
 ```
 
 ## Data Persistence
 
 Data is stored in browser localStorage using Redux Persist. Your notes and todos will persist across browser sessions.
 
-## Part of Life-Sync Ecosystem
+## Part of Life-Sync 2.0 Ecosystem
 
-This app is part of the Life-Sync Personal Operating System:
+| App | URL | Status |
+|-----|-----|--------|
+| 🚀 **Gateway** | https://balaji-dev.in/life-sync | ✅ Live |
+| 💰 **Wealth Pulse** | https://balaji-dev.in/life-sync/wealth | ✅ Live |
+| 📝 **Life Notes** | https://balaji-dev.in/life-sync/notes | ✅ Live |
+| 🤖 **Personal Assistant** | Coming Month 4 | 🔮 Planned |
 
-- 💰 **Wealth Pulse** - Finance & expense tracking
-- 📝 **Life Notes** - Notes & todos (this app)
-- 🤖 **Personal Assistant** - Coming soon
+## Repository
+
+- **GitHub**: [BalajiJ234/life-notes](https://github.com/BalajiJ234/life-notes) (private)
 
 ## License
 
