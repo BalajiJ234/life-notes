@@ -4,14 +4,15 @@
 
 ## 🌐 Live URLs
 
-| Environment | URL |
-|-------------|-----|
-| **Production** | https://balaji-dev.in/life-sync/notes |
+| Environment       | URL                                               |
+| ----------------- | ------------------------------------------------- |
+| **Production**    | https://balaji-dev.in/life-sync/notes             |
 | **Direct Vercel** | https://lyf-notes-todo.vercel.app/life-sync/notes |
 
 ## Features
 
 ### 📝 Notes
+
 - Quick note creation with color coding
 - Pin important notes
 - Tags and categories
@@ -20,17 +21,18 @@
 
 ### ✅ Todos (7 Types)
 
-| Type | Purpose | Color |
-|------|---------|-------|
-| `project` | Project tasks | Blue |
-| `work` | Work-related | Purple |
-| `personal` | Personal tasks | Green |
-| `learning` | Study/courses | Yellow |
-| `essential` | Critical tasks | Red |
-| `finance-expense` | Track expenses → Wealth Pulse | Orange |
-| `finance-saving` | Savings goals → Wealth Pulse | Emerald |
+| Type              | Purpose                       | Color   |
+| ----------------- | ----------------------------- | ------- |
+| `project`         | Project tasks                 | Blue    |
+| `work`            | Work-related                  | Purple  |
+| `personal`        | Personal tasks                | Green   |
+| `learning`        | Study/courses                 | Yellow  |
+| `essential`       | Critical tasks                | Red     |
+| `finance-expense` | Track expenses → Wealth Pulse | Orange  |
+| `finance-saving`  | Savings goals → Wealth Pulse  | Emerald |
 
 ### Additional Features
+
 - Task management with priorities (Low/Medium/High)
 - Due dates with overdue tracking
 - Calendar view
@@ -39,19 +41,20 @@
 
 ## Tech Stack
 
-| Category | Technology |
-|----------|------------|
-| **Framework** | Next.js 15 (App Router) |
-| **UI** | React 19 + Tailwind CSS 4 |
-| **State** | Redux Toolkit + Redux Persist |
-| **Icons** | Lucide React |
-| **Language** | TypeScript |
-| **Hosting** | Vercel |
-| **Routing** | Cloudflare Workers (path-based) |
+| Category      | Technology                      |
+| ------------- | ------------------------------- |
+| **Framework** | Next.js 15 (App Router)         |
+| **UI**        | React 19 + Tailwind CSS 4       |
+| **State**     | Redux Toolkit + Redux Persist   |
+| **Icons**     | Lucide React                    |
+| **Language**  | TypeScript                      |
+| **Hosting**   | Vercel                          |
+| **Routing**   | Cloudflare Workers (path-based) |
 
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - npm or yarn
 
@@ -73,12 +76,12 @@ The app will be available at [http://localhost:3001](http://localhost:3001)
 
 ### Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server on port 3001 |
-| `npm run build` | Build for production |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
+| Command         | Description                           |
+| --------------- | ------------------------------------- |
+| `npm run dev`   | Start development server on port 3001 |
+| `npm run build` | Build for production                  |
+| `npm run start` | Start production server               |
+| `npm run lint`  | Run ESLint                            |
 
 ## Project Structure
 
@@ -127,12 +130,12 @@ Data is stored in browser localStorage using Redux Persist. Your notes and todos
 
 ## Part of Life-Sync 2.0 Ecosystem
 
-| App | URL | Status |
-|-----|-----|--------|
-| 🚀 **Gateway** | https://balaji-dev.in/life-sync | ✅ Live |
-| 💰 **Wealth Pulse** | https://balaji-dev.in/life-sync/wealth | ✅ Live |
-| 📝 **Life Notes** | https://balaji-dev.in/life-sync/notes | ✅ Live |
-| 🤖 **Personal Assistant** | Coming Month 4 | 🔮 Planned |
+| App                       | URL                                    | Status     |
+| ------------------------- | -------------------------------------- | ---------- |
+| 🚀 **Gateway**            | https://balaji-dev.in/life-sync        | ✅ Live    |
+| 💰 **Wealth Pulse**       | https://balaji-dev.in/life-sync/wealth | ✅ Live    |
+| 📝 **Life Notes**         | https://balaji-dev.in/life-sync/notes  | ✅ Live    |
+| 🤖 **Personal Assistant** | Coming Month 4                         | 🔮 Planned |
 
 ## Repository
 
